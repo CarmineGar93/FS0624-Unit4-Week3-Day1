@@ -1,0 +1,63 @@
+Esercizio 1
+Estrai tutti I clienti con nome Mario
+Codice:
+SELECT * FROM public.clienti
+WHERE nome = 'Mario'
+
+Esercizio 2
+Estrarre il nome e cognome dei clienti nati nel 1982
+Codice:
+SELECT nome, cognome FROM public.clienti
+WHERE anno_nascita = 1982
+
+Esercizio 3
+Estrarre il numero delle fatture con iva al 20
+Codice:
+SELECT COUNT(*) FROM public.fatture
+WHERE iva = 20
+
+Esercizio 4
+Estrarre I prodotti attivati nel 2017 e che sono in produzione oppure in commercio
+Codice:
+SELECT * FROM public.prodotti
+WHERE EXTRACT(YEAR FROM data_attivazione) = 2017 AND (in_produzione OR in_commercio)
+
+Esercizio 5
+Riportare l'elenco delle fatture(numero,importo,iva e data) con aggiunta il nome del fornitore
+Codice:
+SELECT nr_fattura, importo, iva, data_fattura, denominazione AS nome_fornitore FROM public.fatture
+JOIN fornitori USING(nr_fornitore)
+ORDER BY nr_fattura
+
+Esercizio 6
+Considerando soltanto le fatture con iva al 20 per cento, estrarre il numero di fatture per ogni anno
+Codice:
+SELECT EXTRACT(YEAR FROM data_fattura) AS ANNO, COUNT(*) AS numero_fatture FROM public.fatture
+WHERE iva = 20
+GROUP BY EXTRACT(YEAR FROM data_fattura)
+
+Esercizio 7
+Riportare il numero di fatture e la sooma dei relative importi divisi per anno di fatturazione
+Codice:
+SELECT EXTRACT(YEAR FROM data_fattura) AS ANNO, SUM(importo) AS totale_annuo,  COUNT(*) AS numero_fatture FROM public.fatture
+GROUP BY EXTRACT(YEAR FROM data_fattura)
+
+Esercizio 8 (Extra)
+Estrarre gli anni in cui sono state registrate più di due fatture con tipologia A
+Codice:
+SELECT EXTRACT(YEAR FROM data_fattura), COUNT(*) AS a FROM public.fatture
+WHERE tipologia = 'A'
+GROUP BY EXTRACT(YEAR FROM data_fattura)
+HAVING COUNT(*) > 2
+
+Esercizio 9
+Estrarre il totale degli importi delle fatture divisi per residenza dei clienti
+Codice:
+SELECT regione_residenza, SUM(importo) as totale_importi from public.fatture
+JOIN clienti USING(nr_cliente)
+GROUP BY regione_residenza
+ORDER BY totale_importi DESC
+
+Esercizio 10
+Estrarre il numero dei clienti nati nel 1980 che hanno almeno una fattura superiore a 50 euro
+Codice:
