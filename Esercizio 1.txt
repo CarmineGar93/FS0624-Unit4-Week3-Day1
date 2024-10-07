@@ -27,6 +27,7 @@ Riportare l'elenco delle fatture(numero,importo,iva e data) con aggiunta il nome
 Codice:
 SELECT nr_fattura, importo, iva, data_fattura, denominazione AS nome_fornitore FROM public.fatture
 JOIN fornitori USING(nr_fornitore)
+WHERE importo < 1000
 ORDER BY nr_fattura
 
 Esercizio 6
